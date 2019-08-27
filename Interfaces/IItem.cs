@@ -4,6 +4,6 @@ namespace TreasureHunter.Interfaces
     {
         string Name { get; set; }
         string Description { get; set; }
-        // int HPModifier { get; set; } //NOTE you might not use this but could be useful for extension ideass
+        // int HPModifier { get; set; } //NOTE you might not use this but could be useful for extension ideas
     }
 }
