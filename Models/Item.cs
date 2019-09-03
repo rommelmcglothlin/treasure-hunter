@@ -10,10 +10,11 @@ namespace TreasureHunter.Models
     public int AmmoCount { get; set; }
     public string Description { get; set; }
 
-    public Item(string name, string description)
+    public Item(string name, int ammoCount = 0, string description = "For Cricket use")
     {
       Name = name;
       Description = description;
+      AmmoCount = ammoCount;
     }
   }
 }

@@ -30,22 +30,22 @@ namespace TreasureHunter
 
       Location = lobby;
 
-      Item gun = new Item("Cricket", "One dart");
-      Item ammo = new Item("Dart", "For Cricket use");
+      Item gun = new Item("Cricket", 0, "Single Dart Nerf Blaster 10,000");
+      Item playerAmmo = new Item("Dart", 5);
+      Item ammoDesk = new Item("Dart", 5);
+      Item ammoMain = new Item("Dart");
+      Item ammoLobby = new Item("Dart");
+      Item ammoBreak = new Item("Dart");
       gun.AmmoCount = 1;
-      myDesk.Items.Add(ammo);
-      mainOffice.Items.Add(ammo);
-      breakRoom.Items.Add(ammo);
-      lobby.Items.Add(ammo);
-      // lobby.Items[0].AmmoCount = 0;
-      // myDesk.Items[0].AmmoCount = 5;
-      // mainOffice.Items[0].AmmoCount = 0;
-      // breakRoom.Items[0].AmmoCount = 0;
+      myDesk.Items.Add(ammoDesk);
+      mainOffice.Items.Add(ammoMain);
+      breakRoom.Items.Add(ammoBreak);
+      lobby.Items.Add(ammoLobby);
+      breakRoom.Items.Add(ammoBreak);
 
       Player = new Player("Joe");
       Player.Inventory.Add(gun);
-      Player.Inventory.Add(ammo);
-      // Player.Inventory[1].AmmoCount = 5;
+      Player.Inventory.Add(playerAmmo);
       CoWorker = new CoWorker(Team());
 
     }
@@ -223,16 +223,20 @@ namespace TreasureHunter
       {
         if (Player.Score > CoWorker.Score)
         {
+          Console.ForegroundColor = ConsoleColor.Green;
           System.Console.WriteLine("You Win!\n");
           System.Console.WriteLine("You Win with a score of: \t" + Player.Score);
           System.Console.WriteLine("Your coworker got a score of: \t" + CoWorker.Score);
+          Console.ResetColor();
           Playing = false;
         }
         else
         {
+          Console.ForegroundColor = ConsoleColor.Red;
           System.Console.WriteLine("You Lose :(\n");
           System.Console.WriteLine("You lose with a score of: \t" + Player.Score);
           System.Console.WriteLine("Coworker wins with a score of: \t" + CoWorker.Score);
+          Console.ResetColor();
           Playing = false;
         }
       }
@@ -241,6 +245,7 @@ namespace TreasureHunter
     public void CurrentScore()
     {
       System.Console.WriteLine("Current Score Points: \t" + Player.Score);
+      System.Console.WriteLine("Current Coworker Points: \t" + CoWorker.Score);
       System.Console.WriteLine("Current Morale Points: \t" + Player.Morale);
       System.Console.WriteLine("");
       System.Console.WriteLine("Press Any Key to Continue.");
@@ -322,19 +327,19 @@ namespace TreasureHunter
           Console.ResetColor();
 
         }
-        else if (Player.Inventory[1].AmmoCount == 0)
-        {
-          Console.ForegroundColor = ConsoleColor.DarkCyan;
-          System.Console.WriteLine("You got no darts!\n");
-          Console.ResetColor();
-        }
         else
         {
           System.Console.WriteLine("You missed\n");
         }
+        Player.Inventory[1].AmmoCount--;
+        Location.Items[0].AmmoCount++;
       }
-      Player.Inventory[1].AmmoCount--;
-      Location.Items[0].AmmoCount++;
+      else if (Player.Inventory[1].AmmoCount == 0)
+      {
+        Console.ForegroundColor = ConsoleColor.DarkCyan;
+        System.Console.WriteLine("You got no darts!\n");
+        Console.ResetColor();
+      }
       if (Location.HRinRoom)
       {
         Player.Morale = Player.Morale - 2;
