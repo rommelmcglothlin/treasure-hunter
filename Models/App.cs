@@ -94,18 +94,18 @@ namespace TreasureHunter
       System.Console.WriteLine($@"
       
       Good morning! you’re at another day of work. Before you decide to go about your day. You remember there's an ougoing nerf gun war at the office. 
-      This is a war between you and your coworkers that has been going on for a while, keeping in mind as soon as you start, you have to start shooting 
-      your coworkers. You’re to decide whether you want keep grinding through the day, or just turn leave for the day and go home.
+      This is a war between you and your coworker {CoWorker.Name} that has been going on for a while, keeping in mind as soon as you start, you have to 
+      start shooting your coworkers. You’re to decide whether you want keep grinding through the day, or at anytime just leave for the day and go home.
 
       Keeping in mind that no matter where you are, you're never safe. You have a nerf gun called 'Cricket' with you at all times, and you'll find yourself 
       with some darts to begin with. Your coworkers will be shooting all the time, as you move or shoot they may or may not hit you. These darts will fall 
-      on the ground and you can retreive them,so you can increase your inventory. 
+      on the ground and you can retreive them, so you can increase your inventory. 
       
       You also have to keep in mind that HR is always lurking around and may or may not be in the room with you. If they happen to be in the room with you, 
       it is encouraged that you move to a different room, or if you want to risk it. You can shoot your coworkers. Doing this though, will increase your 
       chances of losing. If they catch you constantly doing this, they'll eventually take your gun away and you'll automatically lose the game. 
 
-      The game ends when the work day ends and whoever has the most points between you and one of your coworkers. 
+      The game ends when the work day ends and whoever has the most points between you and {CoWorker.Name}. 
 ");
 
     }
@@ -197,7 +197,7 @@ namespace TreasureHunter
       if (shooting <= 2)
       {
         Console.ForegroundColor = ConsoleColor.DarkRed;
-        System.Console.WriteLine($"You've been shot by {Player.Name}!");
+        System.Console.WriteLine($"You've been shot by {CoWorker.Name}!");
         Console.ResetColor();
         CoWorker.Score++;
       }
@@ -226,7 +226,16 @@ namespace TreasureHunter
           Console.ForegroundColor = ConsoleColor.Green;
           System.Console.WriteLine("You Win!\n");
           System.Console.WriteLine("You Win with a score of: \t" + Player.Score);
-          System.Console.WriteLine("Your coworker got a score of: \t" + CoWorker.Score);
+          System.Console.WriteLine($"{CoWorker.Name} got a score of: \t" + CoWorker.Score);
+          Console.ResetColor();
+          Playing = false;
+        }
+        if (Player.Score == CoWorker.Score)
+        {
+          Console.ForegroundColor = ConsoleColor.Yellow;
+          System.Console.WriteLine("It's a draw!\n");
+          System.Console.WriteLine("You got a score of: \t\t" + Player.Score);
+          System.Console.WriteLine($"{CoWorker.Name} got a score of: \t" + CoWorker.Score);
           Console.ResetColor();
           Playing = false;
         }
@@ -235,7 +244,7 @@ namespace TreasureHunter
           Console.ForegroundColor = ConsoleColor.Red;
           System.Console.WriteLine("You Lose :(\n");
           System.Console.WriteLine("You lose with a score of: \t" + Player.Score);
-          System.Console.WriteLine("Coworker wins with a score of: \t" + CoWorker.Score);
+          System.Console.WriteLine($"{CoWorker.Name} wins with a score of: \t" + CoWorker.Score);
           Console.ResetColor();
           Playing = false;
         }
@@ -244,9 +253,9 @@ namespace TreasureHunter
 
     public void CurrentScore()
     {
-      System.Console.WriteLine("Current Score Points: \t" + Player.Score);
-      System.Console.WriteLine("Current Coworker Points: \t" + CoWorker.Score);
-      System.Console.WriteLine("Current Morale Points: \t" + Player.Morale);
+      System.Console.WriteLine("Your Current Score Points: \t\t" + Player.Score);
+      System.Console.WriteLine($"{CoWorker.Name}'s Current Points: \t" + CoWorker.Score);
+      System.Console.WriteLine("Current Morale Points: \t\t" + Player.Morale);
       System.Console.WriteLine("");
       System.Console.WriteLine("Press Any Key to Continue.");
       Console.ReadKey(true);
@@ -254,6 +263,7 @@ namespace TreasureHunter
       Around();
       CaptureUserInput();
     }
+
     public void DisplayRoomDescription()
     {
       if (Location.Items[0].AmmoCount > 0)
@@ -344,7 +354,7 @@ namespace TreasureHunter
       {
         Player.Morale = Player.Morale - 2;
         Console.ForegroundColor = ConsoleColor.Red;
-        System.Console.WriteLine("HR caught you shooting your coworker!\n");
+        System.Console.WriteLine($"HR caught you shooting {CoWorker.Name}!\n");
         Console.ResetColor();
       }
 
